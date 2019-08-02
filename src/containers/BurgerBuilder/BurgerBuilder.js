@@ -28,16 +28,19 @@ class BurgerBuilder extends Component {
 		totalPrice: 4,
 		purchasable: false,
 		purchasing: false,
-    loading: false,
-    error: false,
+		loading: false,
+		error: false,
 	};
 
 	componentDidMount() {
-    axios.get('https://react-bs-burger.firebaseio.com/ingredients.json')
-      .then((response) => {
-            this.setState({ ingredients: response.data });
-      })
-      .catch(error => { this.setState({ error: true }) });
+		axios
+			.get('https://react-bs-burger.firebaseio.com/ingredients.json')
+			.then((response) => {
+				this.setState({ ingredients: response.data });
+			})
+			.catch((error) => {
+				this.setState({ error: true });
+			});
 	}
 
 	updatePurchaseState(ingredients) {
@@ -137,42 +140,42 @@ class BurgerBuilder extends Component {
 			// Change the properties in the copied ingredients state to true/false
 			disabledInfo[key] = disabledInfo[key] <= 0;
 		}
-    let orderSummary = null;
-    let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
-    if (this.state.ingredients) {
-      burger = (
-        <Aux>
-          <Burger ingredients={this.state.ingredients} />
-          <BuildControls
-            ingredientAdded={this.addIngredientHandler}
-            ingredientRemoved={this.removeIngredientHandler}
-            disabled={disabledInfo}
-            purchasable={this.state.purchasable}
-            price={this.state.totalPrice}
-            ordered={this.purchaseHandler}
-          />
-        </Aux>
-      );
-      orderSummary = (
-        <OrderSummary
-          ingredients={this.state.ingredients}
-          purchaseCancelled={this.purchaseCancelHandler}
-          purchaseContinue={this.purchaseContinueHandler}
-          price={this.state.totalPrice}
-        />
-      );
+		let orderSummary = null;
+		let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
+		if (this.state.ingredients) {
+			burger = (
+				<Aux>
+					<Burger ingredients={this.state.ingredients} />
+					<BuildControls
+						ingredientAdded={this.addIngredientHandler}
+						ingredientRemoved={this.removeIngredientHandler}
+						disabled={disabledInfo}
+						purchasable={this.state.purchasable}
+						price={this.state.totalPrice}
+						ordered={this.purchaseHandler}
+					/>
+				</Aux>
+			);
+			orderSummary = (
+				<OrderSummary
+					ingredients={this.state.ingredients}
+					purchaseCancelled={this.purchaseCancelHandler}
+					purchaseContinue={this.purchaseContinueHandler}
+					price={this.state.totalPrice}
+				/>
+			);
 
-      if (this.state.loading) {
-        orderSummary = <Spinner />;
-      }
-    }
+			if (this.state.loading) {
+				orderSummary = <Spinner />;
+			}
+		}
 
 		return (
 			<Aux>
 				<Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
 					{orderSummary}
-        </Modal>
-        {burger}
+				</Modal>
+				{burger}
 			</Aux>
 		);
 	}
