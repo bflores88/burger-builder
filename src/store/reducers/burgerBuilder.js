@@ -55,6 +55,10 @@ const fetchIngredientsFailed = (state, action) => {
 	return updateObject(state, { error: true });
 };
 
+const resetIngredients = (state, action) => {
+	return updateObject(state, { building: false });
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.ADD_INGREDIENT:
@@ -65,6 +69,8 @@ const reducer = (state = initialState, action) => {
 			return setIngredient(state, action);
 		case actionTypes.FETCH_INGREDIENTS_FAILED:
 			return fetchIngredientsFailed(state, action);
+		case actionTypes.PURCHASE_BURGER_SUCCESS:
+			return resetIngredients(state, action);
 		default:
 			return state;
 	}
