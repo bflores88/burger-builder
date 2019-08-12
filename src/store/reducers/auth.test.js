@@ -36,4 +36,27 @@ describe('auth reducer', () => {
 			authRedirectPath: '/',
 		});
 	});
+
+	it('should remove the token upon logout', () => {
+		expect(
+			reducer(
+				{
+					token: 'some-token',
+					userId: 'some-user-id',
+					error: null,
+					loading: false,
+					authRedirectPath: '/',
+				},
+				{
+					type: actionTypes.AUTH_LOGOUT,
+				},
+			),
+		).toEqual({
+			token: null,
+			userId: null,
+			error: null,
+			loading: false,
+			authRedirectPath: '/',
+		});
+	});
 });
